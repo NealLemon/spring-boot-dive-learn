@@ -1,0 +1,10 @@
+# Initializers
+org.springframework.context.ApplicationContextInitializer=\
+neal.context.AfterHelloWorldApplicationContextInitializer,\
+neal.context.HelloWorldApplicationContextInitializer
+
+# Application Listeners
+org.springframework.context.ApplicationListener=\
+neal.listener.HelloWorldRefreshedEvent,\
+neal.listener.AfterHelloWorldRefreshedEvent,\
+neal.listener.BeforeConfigFileApplicationListener
