@@ -3,8 +3,6 @@ package com.web.configuration;
 import com.web.method.support.PropertiesHandlerMethodArgumentResolver;
 import com.web.method.support.PropertiesHandlerMethodReturnValueHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +24,11 @@ import java.util.List;
 @Configuration   //配置
 public class RestWebMvcConfig implements WebMvcConfigurer {
 
+
     @Autowired
     private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
+    //在依赖注入完成后被自动调用
     @PostConstruct
     public void init() {
         // 获取当前 RequestMappingHandlerAdapter 所有的 Resolver 对象
