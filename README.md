@@ -16,5 +16,7 @@
 
   - [SpringBoot如何进行视图协商装配](https://www.jianshu.com/p/a743fc262f49)
   - [SpringBoot视图协商之 请求头协商](https://www.jianshu.com/p/ea8928eae442)
+  - [SpringBoot视图协商之 RESTFUL](https://www.jianshu.com/p/c01fd0ebbe80)
+  - [SpringBoot视图协商之 自定义解析处理器](https://www.jianshu.com/p/778e2edfdf25)
 
  
