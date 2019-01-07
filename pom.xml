@@ -13,7 +13,8 @@
         <module>springboot-webmvc</module>
 		<module>springboot-restful</module>
         <module>spring-servlet-asyn</module>
-    </modules>
+		<module>springboot-webflux</module>
+	</modules>
     <packaging>pom</packaging>
 
 	<name>spring-boot-dive-learn</name>
