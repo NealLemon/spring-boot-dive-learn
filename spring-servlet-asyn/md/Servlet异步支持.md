@@ -1,14 +1,20 @@
-# Servlet异步支持
+# SpringMVC基于Servlet异步支持
 
   本文是学习了小马哥在慕课网的课程的《Spring Boot 2.0深度实践之核心技术篇》的内容结合自己的需要和理解做的笔记。 
 
   大家都知道在springboot2.0版本之后推出了 基于Reactive Programming编程模型的WebFlux技术栈与SpringMvc 并存，稍后会有单独介绍WebFlux的相关内容，在我们看来WebFlux技术栈最简单直接的解释就是异步非阻塞。但是我们也知道在Servlet 3.0 之后 也支持异步非阻塞请求，而SpringMvc就是在Servlet引擎基础上创建的。
+
+## 概要
 
   那么我们就简单介绍一下在SpringMvc技术栈下的相关的3种异步请求。
 
 - DeferredResult
 - Callable
 - CompletionStage/CompletableFuture 
+
+接下来看一下项目目录
+
+p10
 
 ### DeferredResult
 
@@ -300,7 +306,7 @@ p9.png
 
   SpringMVC异步处理大部分已经介绍完了，其实SpringMvc支持的异步已经能够满足我们的基本开发需要，那么为什么Spring还要引入 WebFlux 技术栈，用小马哥课中提到的就是 一种趋势，并发编程模型已经成趋势。之后会有单独介绍这方面的内容。
 
-
+[DEMO地址](https://github.com/NealLemon/spring-boot-dive-learn/tree/master/spring-servlet-asyn)
 
 
 

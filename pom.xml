@@ -12,7 +12,8 @@
         <module>spring-application</module>
         <module>springboot-webmvc</module>
 		<module>springboot-restful</module>
-	</modules>
+        <module>spring-servlet-asyn</module>
+    </modules>
     <packaging>pom</packaging>
 
 	<name>spring-boot-dive-learn</name>
