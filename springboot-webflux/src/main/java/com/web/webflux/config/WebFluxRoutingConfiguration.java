@@ -12,7 +12,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 
 /**
  * @ClassName WebFluxRoutingConfiguration
- * @Description TODO
+ * @Description 函数式端点
  * @Author Neal
  * @Date 2019/1/8 14:28
  * @Version 1.0
@@ -28,4 +28,5 @@ public class WebFluxRoutingConfiguration {
         return route(GET("/webflux/{userId}"), userHandler::getUserById)
                 .andRoute(GET("/webflux/users"),userHandler::getAll);
     }
+
 }
