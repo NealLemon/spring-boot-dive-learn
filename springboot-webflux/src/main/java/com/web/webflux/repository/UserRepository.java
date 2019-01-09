@@ -48,6 +48,6 @@ public class UserRepository {
      */
     private void printlnThread(Object object) {
         String threadName = Thread.currentThread().getName();
-        System.out.println("HelloWorldAsyncController[" + threadName + "]: " + object);
+        System.out.println("[" + threadName + "]: " + object);
     }
 }

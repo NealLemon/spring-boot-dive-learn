@@ -1,4 +1,4 @@
-# Springboot 2.0---WebFlux
+# Springboot 2.0---WebFlux初识
 
   本文是学习了小马哥在慕课网的课程的《Spring Boot 2.0深度实践之核心技术篇》的内容结合自己的需要和理解做的笔记。 
 
@@ -39,8 +39,7 @@
   求。
   - Spring WebFlux 通常是非阻塞服务，不会发生阻塞，因此该阻塞服务器可使用少量、固定大小的线程池处理请求。
   - 函数式接口 - @FunctionInterface
-    - 用于函数式接口类型声明的信息注解类型，这些接口的实例被 Lambda 表示式、方法引用或构造器引用创建。函
-      数式接口只能有一个抽象方法，并排除接口默认方法以及声明中覆盖 Object 的公开方法的统计。同时，@FunctionalInterface 不能标注在注解、类以及枚举上。如果违背以上规则，那么接口不能视为函数式接口，当标注 @FunctionalInterface 后，会引起编译错误。不过，如果任一接口满足以上函数式接口的要求，无论接口声明中是否标注 @FunctionalInterface ，均能被编译器视作函数式接口。
+    - 用于函数式接口类型声明的信息注解类型，这些接口的实例被 Lambda 表示式、方法引用或构造器引用创建。函数式接口只能有一个抽象方法，并排除接口默认方法以及声明中覆盖 Object 的公开方法的统计。同时，@FunctionalInterface 不能标注在注解、类以及枚举上。如果违背以上规则，那么接口不能视为函数式接口，当标注 @FunctionalInterface 后，会引起编译错误。不过，如果任一接口满足以上函数式接口的要求，无论接口声明中是否标注 @FunctionalInterface ，均能被编译器视作函数式接口。
     - 接口函数
       - 消费函数 - Consumer
       - 生产函数 - Supplier
@@ -210,4 +209,197 @@ public class WebFluxAnnotatedController {
 
   接下来让我们启动一下容器，并且调用REST API 来测试一下返回结果是否符合预期。
 
- 单个结果返回,也就是
+ 单个结果返回,也就是获取一个用户
+
+p3.png
+
+p4,png
+
+获取结果序列，也就是全部用户
+
+p5.png
+
+p6.png
+
+
+
+#### 函数式端点实现
+
+##### 官方示例
+
+p2.png
+
+  WebFlux使用配置函数路由的方式来实现请求映射，而在处理接口(`UserHandler `) 中的方法返回全都是`Mono<ServerResponse>`类型的，这个就跟函数式接口`@FunctionInterface`有关，有兴趣的小伙伴可以仔细了解一下。这里就作简单的解释。先看这个`route`方法。
+
+```java
+public static <T extends ServerResponse> RouterFunction<T> route(
+      RequestPredicate predicate, HandlerFunction<T> handlerFunction) {
+
+   return new DefaultRouterFunction<>(predicate, handlerFunction);
+}
+```
+
+ 这个方法需要返回一个 ` <T extends ServerResponse>` 。
+
+而在 `DefaultRouterFunction` 类中
+
+```java
+private static final class DefaultRouterFunction<T extends ServerResponse> extends AbstractRouterFunction<T> {
+
+   private final RequestPredicate predicate;
+
+   private final HandlerFunction<T> handlerFunction;
+
+   public DefaultRouterFunction(RequestPredicate predicate, HandlerFunction<T> handlerFunction) {
+      Assert.notNull(predicate, "Predicate must not be null");
+      Assert.notNull(handlerFunction, "HandlerFunction must not be null");
+      this.predicate = predicate;
+      this.handlerFunction = handlerFunction;
+   }
+
+   @Override
+   public Mono<HandlerFunction<T>> route(ServerRequest request) {
+      if (this.predicate.test(request)) {
+         if (logger.isDebugEnabled()) {
+            logger.debug(String.format("Predicate \"%s\" matches against \"%s\"", this.predicate, request));
+         }
+         return Mono.just(this.handlerFunction);
+      }
+      else {
+         return Mono.empty();
+      }
+   }
+
+   @Override
+   public void accept(Visitor visitor) {
+      visitor.route(this.predicate, this.handlerFunction);
+   }
+}
+```
+
+我们可以看到 route的返回值是 `Mono<HandlerFunction<T>>` 而`Mono<HandlerFunction<T>>`就是一个函数式接口
+
+```java
+@FunctionalInterface
+public interface HandlerFunction<T extends ServerResponse> {
+
+   /**
+    * Handle the given request.
+    * @param request the request to handle
+    * @return the response
+    */
+   Mono<T> handle(ServerRequest request);
+
+}
+```
+
+所以 路由函数返回值只能是 `Mono<T extends ServerResponse>` 类型。
+
+
+
+##### 具体代码
+
+1.路由配置类 `WebFluxRoutingConfiguration`
+
+```java
+/**
+ * @ClassName WebFluxRoutingConfiguration
+ * @Description 函数式端点
+ * @Author Neal
+ * @Date 2019/1/8 14:28
+ * @Version 1.0
+ */
+@Configuration
+public class WebFluxRoutingConfiguration {
+
+    @Autowired
+    private UserHandler userHandler;
+
+    @Bean
+    public RouterFunction<ServerResponse> routerFunction() {
+        return route(GET("/webflux/user/{userId}"), userHandler::getUserById)
+                .andRoute(GET("/webflux/users"),userHandler::getAll);
+    }
+
+}
+```
+
+2.处理类`UserHandler`
+
+```java
+/**
+ * @ClassName UserHandler
+ * @Description TODO
+ * @Author Neal
+ * @Date 2019/1/8 14:30
+ * @Version 1.0
+ */
+@Component
+public class UserHandler {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public Mono<ServerResponse> getUserById(ServerRequest serverRequest) {
+        printlnThread("获取单个用户");
+        return ServerResponse.status(HttpStatus.OK)
+                .body(Mono.just(userRepository.getUserByUserId().get(Integer.valueOf(serverRequest.pathVariable("userId")))), User.class);
+    }
+
+
+    public Mono<ServerResponse> getAll(ServerRequest serverRequest) {
+        printlnThread("获取所有用户");
+        Flux<User> userFlux = Flux.fromStream(userRepository.getUsers().entrySet().stream().map(Map.Entry::getValue));
+        return ServerResponse.ok()
+                .body(userFlux, User.class);
+    }
+    /**
+     * 打印当前线程
+     * @param object
+     */
+    private void printlnThread(Object object) {
+        String threadName = Thread.currentThread().getName();
+        System.out.println("HelloWorldAsyncController[" + threadName + "]: " + object);
+    }
+}
+```
+
+##### 启动测试
+
+启动Springboot使用postMan请求。
+
+获取单个用户
+
+p7.png
+
+p8.png
+
+获取所有用户
+
+p9.png
+
+p10.png
+
+总结
+
+  Spring WebFlux Framework的两种模式的简单实现已经介绍完了。大家可能会有疑问，不说是异步非阻塞么，为什么在控制台输出的线程总是单线程处理的，这好像跟异步没有关系吧。在这里要纠正一下我们理解上的错误。这里指的异步非阻塞并不是说使用增多线程来实现非阻塞，而是HTTP请求的非阻塞。
+
+  举个简单的例子:
+
+  之前Servlet的同步阻塞就相当于 远途大客车。而WebFlux非阻塞相当于 公交车。假设两辆车的座位数量相等。我们都知道远途的大客车只乘客不允许乘客站乘，也就是说座位数固定下只有当一个乘客下车后才可以再上一个乘客。而公交车呢，只要到站就可以上车下车，没有人员数量限制。
+
+  不知道我的例子大家能不能看懂，例子中的座位就是我们tomcat或其他容器的线程总数，而请求就是上车的人员。我们在有限的线程中，只有WebFlux可以做到非阻塞的请求。
+
+  但是我们要注意一点，使用WebFlux或Reactive编程模型时，一定要注意超时的问题。
+
+
+
+## 其他链接
+
+[Demo地址](https://github.com/NealLemon/spring-boot-dive-learn/tree/master/springboot-webflux)
+
+[朱晔和你聊Spring系列S1E5：Spring WebFlux小探](https://zhuanlan.zhihu.com/p/46013409)
+
+[左搜-Spring-WebFlux](http://www.leftso.com/blog/285.html)
+
+[Springboot doc](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/#boot-features-webflux)
