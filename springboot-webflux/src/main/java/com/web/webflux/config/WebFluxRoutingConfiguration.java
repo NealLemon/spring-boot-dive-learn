@@ -23,7 +23,7 @@ public class WebFluxRoutingConfiguration {
     @Autowired
     private UserHandler userHandler;
 
-    @Bean
+    @Bean("routerFunction")
     public RouterFunction<ServerResponse> routerFunction() {
         return route(GET("/webflux/user/{userId}"), userHandler::getUserById)
                 .andRoute(GET("/webflux/users"),userHandler::getAll);
