@@ -14,7 +14,8 @@
 		<module>springboot-restful</module>
         <module>spring-servlet-asyn</module>
 		<module>springboot-webflux</module>
-	</modules>
+        <module>externalized-configuration</module>
+    </modules>
     <packaging>pom</packaging>
 
 	<name>spring-boot-dive-learn</name>
