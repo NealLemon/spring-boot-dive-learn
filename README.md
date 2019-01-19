@@ -25,5 +25,9 @@
   - [Springboot 2.0---WebFlux初识](https://www.jianshu.com/p/2db1ecacb770)
   - [Springboot 2.0---WebFlux核心组件的初始化（一）](https://www.jianshu.com/p/159331404001)
   - [Springboot 2.0---WebFlux核心组件的初始化（二）](https://www.jianshu.com/p/7f4483092a46)
+- [外部化配置代码地址](https://github.com/NealLemon/spring-boot-dive-learn/tree/master/externalized-configuration)
+
+  - [Springboot--外部化配置(一)](https://www.jianshu.com/p/af104768ab3b)
+  - [Springboot--外部化配置(二)](https://www.jianshu.com/p/ff0c4d8560c5)
 
  
