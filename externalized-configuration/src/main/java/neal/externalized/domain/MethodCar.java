@@ -1,23 +1,18 @@
 package neal.externalized.domain;
 
-import org.springframework.beans.factory.annotation.Value;
-
 /**
- * @ClassName Car
- * @Description 外部化配置相关bean
+ * @ClassName MethodCar
+ * @Description  方法注入
  * @Author Neal
- * @Date 2019/1/18 10:57
+ * @Date 2019/1/19 14:50
  * @Version 1.0
  */
-public class Car {
+public class MethodCar {
 
-    @Value("${car.name}")
     private String name;
 
-    @Value("${car.color}")
     private String color;
 
-    @Value("${car.producer:defaultProducer}")
     private String producer;
 
     public String getName() {
@@ -46,10 +41,11 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "MethodCar{" +
                 "name='" + name + '\'' +
                 ", color='" + color + '\'' +
                 ", producer='" + producer + '\'' +
                 '}';
     }
+
 }

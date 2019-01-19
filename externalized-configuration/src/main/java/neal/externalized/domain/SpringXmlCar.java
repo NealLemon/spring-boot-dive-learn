@@ -1,23 +1,19 @@
 package neal.externalized.domain;
 
-import org.springframework.beans.factory.annotation.Value;
 
 /**
- * @ClassName Car
- * @Description 外部化配置相关bean
+ * @ClassName SpringXmlCar
+ * @Description XML配置的外部化配置
  * @Author Neal
- * @Date 2019/1/18 10:57
+ * @Date 2019/1/19 9:59
  * @Version 1.0
  */
-public class Car {
+public class SpringXmlCar {
 
-    @Value("${car.name}")
     private String name;
 
-    @Value("${car.color}")
     private String color;
 
-    @Value("${car.producer:defaultProducer}")
     private String producer;
 
     public String getName() {

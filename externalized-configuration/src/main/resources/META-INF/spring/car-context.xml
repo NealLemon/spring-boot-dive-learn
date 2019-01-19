@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- User Bean -->
+    <bean id="springXmlCar" class="neal.externalized.domain.SpringXmlCar">
+        <property name="name" value="${car.name}"/>
+        <property name="color" value="${car.color}"/>
+        <property name="producer" value="${car.producer}"/>
+    </bean>
+
+</beans>
