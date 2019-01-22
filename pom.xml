@@ -15,6 +15,7 @@
         <module>spring-servlet-asyn</module>
 		<module>springboot-webflux</module>
         <module>externalized-configuration</module>
+        <module>expansion-externalized</module>
     </modules>
     <packaging>pom</packaging>
 

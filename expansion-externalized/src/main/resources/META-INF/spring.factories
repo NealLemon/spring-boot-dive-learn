@@ -1,0 +1,5 @@
+# Run Listeners
+org.springframework.boot.SpringApplicationRunListener=\
+neal.externalized.listener.ExternalizePropertyListener
+org.springframework.context.ApplicationListener=\
+neal.externalized.listener.ExternalizePropertyEventListener

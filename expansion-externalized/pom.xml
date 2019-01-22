@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>externalized-configuration</artifactId>
+    <artifactId>expansion-externalized</artifactId>
 
     <dependencies>
         <dependency>
