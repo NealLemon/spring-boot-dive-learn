@@ -2,8 +2,8 @@
 org.springframework.boot.SpringApplicationRunListener=\
 neal.externalized.listener.ExternalizePropertyListener
 #ApplicationListener
-#org.springframework.context.ApplicationListener=\
-#neal.externalized.listener.ExternalizePropertyEventListener
+org.springframework.context.ApplicationListener=\
+neal.externalized.listener.ExternalizePropertyEventListener
 
 #EnvironmentPostProcessor
 org.springframework.boot.env.EnvironmentPostProcessor=\
