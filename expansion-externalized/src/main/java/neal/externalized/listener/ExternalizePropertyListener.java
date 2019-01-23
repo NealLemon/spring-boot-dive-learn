@@ -37,9 +37,17 @@ public class ExternalizePropertyListener implements SpringApplicationRunListener
      */
     @Override
     public void environmentPrepared(ConfigurableEnvironment environment) {
+
+        //获取项目跟路径
         String classpath = ExternalizePropertyListener.class.getResource("/").getPath();
+        //获取PropertySource组合对象
         MutablePropertySources propertySources = environment.getPropertySources();
+
+        //获取自定义的外部化配置资源
         File file = new File(classpath +"config/externalizepropertylistener.properties");
+        /**
+         * 获取Property对象
+         */
         InputStreamReader reader = null;
         try {
             reader = new InputStreamReader(new FileInputStream(file));
@@ -47,7 +55,9 @@ public class ExternalizePropertyListener implements SpringApplicationRunListener
             Properties properties = new Properties();
             // 加载字符流成为 Properties 对象
             properties.load(reader);
+            //声明Spring内置PropertiesPropertySource对象
             PropertiesPropertySource propertySource = new PropertiesPropertySource("from---ExternalizePropertyListener",properties);
+            //将配置资源放到其他配置资源的首位
             propertySources.addFirst(propertySource);
         }catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +96,8 @@ public class ExternalizePropertyListener implements SpringApplicationRunListener
     public void failed(ConfigurableApplicationContext context, Throwable exception) {
 
     }
-
+    //加载顺序在EventPublishingRunListener之前
+    // 这么做是为了之后的外部化配置展示
     @Override
     public int getOrder() {
         return -1;
