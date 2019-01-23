@@ -23,7 +23,7 @@ public class ExternalizePropertyEventListener implements ApplicationListener<App
     @Override
     public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
         //获取项目跟路径
-        String classpath = ExternalizePropertyListener.class.getResource("/").getPath();
+        String classpath = ExternalizePropertyEventListener.class.getResource("/").getPath();
         //获取PropertySource组合对象
         MutablePropertySources propertySources = event.getEnvironment().getPropertySources();
         //获取自定义的外部化配置资源

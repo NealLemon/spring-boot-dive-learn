@@ -24,7 +24,7 @@ public class ExternalizePropertyPostProcessor implements EnvironmentPostProcesso
         MutablePropertySources propertySources = environment.getPropertySources();
 
         //获取项目跟路径
-        String classpath = ExternalizePropertyListener.class.getResource("/").getPath();
+        String classpath = ExternalizePropertyPostProcessor.class.getResource("/").getPath();
 
         //获取自定义的外部化配置资源
         File file = new File(classpath +"config/environmentpostprocessor.properties");

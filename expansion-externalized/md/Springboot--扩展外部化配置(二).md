@@ -16,7 +16,6 @@
 - 基于 `ApplicationContextInitializer` 扩展外部化配置属性源
 - 基于 `SpringApplicationRunListener#contextPrepared` 扩展外部化配置属性源
 - 基于 `SpringApplicationRunListener#contextLoaded` 扩展外部化配置属性源
-- 基于 `ApplicationPreparedEvent` 扩展外部化配置属性源
 
 
 

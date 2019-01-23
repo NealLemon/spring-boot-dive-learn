@@ -32,7 +32,7 @@ public class ExternalizePropertyListener implements SpringApplicationRunListener
     }
 
     /**
-     * 扩展外部化资源
+     * 基于 `SpringApplicationRunListener#environmentPrepared`的实现方式
      * @param environment
      */
     @Override
@@ -72,14 +72,85 @@ public class ExternalizePropertyListener implements SpringApplicationRunListener
 
     }
 
+    /**
+     *     基于 `SpringApplicationRunListener#contextPrepared` 扩展外部化配置属性源
+     */
     @Override
     public void contextPrepared(ConfigurableApplicationContext context) {
+        //获取environment 对象
+        ConfigurableEnvironment environment = context.getEnvironment();
 
+        //获取项目跟路径
+        String classpath = ExternalizePropertyListener.class.getResource("/").getPath();
+        //获取PropertySource组合对象
+        MutablePropertySources propertySources = environment.getPropertySources();
+        //获取自定义的外部化配置资源
+        File file = new File(classpath +"config/contextprepared.properties");
+
+        /**
+         * 获取Property对象
+         */
+        InputStreamReader reader = null;
+        try {
+            reader = new InputStreamReader(new FileInputStream(file));
+            //声明一个properties对象
+            Properties properties = new Properties();
+            // 加载字符流成为 Properties 对象
+            properties.load(reader);
+            //声明Spring内置PropertiesPropertySource对象
+            PropertiesPropertySource propertySource = new PropertiesPropertySource("from---contextPrepared",properties);
+            //将配置资源放到其他配置资源的首位
+            propertySources.addFirst(propertySource);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    /**
+     * 基于 `SpringApplicationRunListener#contextLoaded` 扩展外部化配置属性源
+     * @param context
+     */
     @Override
     public void contextLoaded(ConfigurableApplicationContext context) {
+        //获取environment 对象
+        ConfigurableEnvironment environment = context.getEnvironment();
 
+        //获取项目跟路径
+        String classpath = ExternalizePropertyListener.class.getResource("/").getPath();
+        //获取PropertySource组合对象
+        MutablePropertySources propertySources = environment.getPropertySources();
+        //获取自定义的外部化配置资源
+        File file = new File(classpath +"config/contextploaded.properties");
+
+        /**
+         * 获取Property对象
+         */
+        InputStreamReader reader = null;
+        try {
+            reader = new InputStreamReader(new FileInputStream(file));
+            //声明一个properties对象
+            Properties properties = new Properties();
+            // 加载字符流成为 Properties 对象
+            properties.load(reader);
+            //声明Spring内置PropertiesPropertySource对象
+            PropertiesPropertySource propertySource = new PropertiesPropertySource("from---contextLoaded",properties);
+            //将配置资源放到其他配置资源的首位
+            propertySources.addFirst(propertySource);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

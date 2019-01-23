@@ -8,3 +8,7 @@ neal.externalized.listener.ExternalizePropertyEventListener
 #EnvironmentPostProcessor
 org.springframework.boot.env.EnvironmentPostProcessor=\
 neal.externalized.listener.ExternalizePropertyPostProcessor
+
+#ApplicationContextInitializer
+org.springframework.context.ApplicationContextInitializer=\
+neal.externalized.listener.ExternalizeApplicationContextInitializer
