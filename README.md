@@ -29,5 +29,10 @@
 
   - [Springboot--外部化配置(一)](https://www.jianshu.com/p/af104768ab3b)
   - [Springboot--外部化配置(二)](https://www.jianshu.com/p/ff0c4d8560c5)
+- [扩展外部化配置](https://github.com/NealLemon/spring-boot-dive-learn/tree/master/expansion-externalized)
+
+  - [Springboot--扩展外部化配置(一)](https://www.jianshu.com/p/76c3bb902bee)
+  - [Springboot--扩展外部化配置(二)](https://www.jianshu.com/p/fef9876d0646)
+  - Springboot--扩展外部化配置(三)
 
  

@@ -13,4 +13,7 @@ public class HelloWorldController {
         System.out.println("执行HelloWorldController中的index()方法");
         return "index";
     }
+
+
+
 }
