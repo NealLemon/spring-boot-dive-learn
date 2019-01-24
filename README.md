@@ -33,6 +33,6 @@
 
   - [Springboot--扩展外部化配置(一)](https://www.jianshu.com/p/76c3bb902bee)
   - [Springboot--扩展外部化配置(二)](https://www.jianshu.com/p/fef9876d0646)
-  - Springboot--扩展外部化配置(三)
+  - [Springboot--扩展外部化配置(三)](https://www.jianshu.com/p/727e72790906)
 
  
